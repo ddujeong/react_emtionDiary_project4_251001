@@ -1,0 +1,22 @@
+.Button {
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px 10px 20px;
+    font-size: 18px;
+    white-space: nowrap;
+    /* 줄바꿈 금지 */
+    font-family: "Poor Story";
+}
+.Button_default {
+    background-color: #ececec;
+    color: black;
+}
+.Button_positive {
+    background-color: #70b670;
+    color: white;
+}
+.Button_negative {
+    background-color: #e46f75;
+    color: white;
+}
