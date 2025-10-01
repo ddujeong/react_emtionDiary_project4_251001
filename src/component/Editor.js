@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Editor.css';
-import { getFormattedDate } from '../util';
+import { emotionList, getFormattedDate } from '../util';
 import Button from "./Button";
 import { useNavigate } from 'react-router-dom';
+import EmotionItem from './EmotionItem';
 
 // initData => 입력(New) 또는 수정(Edit)에서 다르게 보여질 입력 내용
 // 수정 => 기존 입력 내용 , 입력 => placeholder 
@@ -18,7 +19,7 @@ const Editor = ({initData,onSubmit}) => {
             date: e.target.value
         })
     };
-    const handleChangeContent = (e) => {
+    const handleChangeContent = (e) => { // 객체내의 속성값 변경 (state 객체 내의 content속성값을 e.target.value로 변경)
         setState({
             ...state,
             content: e.target.value
@@ -30,7 +31,25 @@ const Editor = ({initData,onSubmit}) => {
     const navigate = useNavigate();
     const handleOnGoBack = () => { // 뒤로가기
         navigate(-1);
-    }
+    };
+    const handleChangeEmotion = (emotionId) => { // 객체내의 속성값 변경 (state 객체 내의 emotionId속성값을 emotionId로 변경)
+        setState({
+            ...state,
+            emotionId
+        })
+    };
+    useEffect(() => {
+        // initData 존재여부 확인 => 있으면 if문 실행 => 상위 컴포넌트에 전달
+        // initData 존재 -> 일기 수정 / 존재 X -> 새 글 작성
+        // 존재하면 content가 initData의 내용이어야 함
+        if (initData) {
+            setState({
+                ...initData,
+                date : getFormattedDate(new Date(parseInt(initData.date)))
+                // initData 의 date를 날짜 포맷형식으로 포맷 (yyyy-mm-dd))
+            });
+        }
+    },[initData]) // initData는 처음 실행시 1번만 변경 -> useEffect 1번만 실행
     return(
         <div className='Editor'>
             <div className='editor_section'>
@@ -43,6 +62,13 @@ const Editor = ({initData,onSubmit}) => {
             <div className='editor_section'>
                 {/* 감정  */}
                 <h4>오늘의 감정</h4>
+                <div className='input_wrapper emotion_list_wrapper'>
+                    {emotionList.map((it)=> (
+                        <EmotionItem key={it.id} {...it} 
+                                    onClick={handleChangeEmotion} 
+                                    isSelected={state.emotionId === it.id} />
+                    ))}
+                </div>
             </div>
             <div className='editor_section'>
                 {/* 일기  */}
