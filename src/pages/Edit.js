@@ -6,7 +6,7 @@ const Edit = () => {
     return (
         <div>
             <Header
-                title={"새 일기 쓰기"} 
+                title={"일기 수정하기"} 
                 leftChild={<Button text={"긍정 버튼"} type="positive" onClick={() => {alert("positive button")}} />}
                 rightChild={<Button text={"부정 버튼"} type="negative" onClick={() => {alert("negative button")}} />}
             />

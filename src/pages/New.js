@@ -6,11 +6,11 @@ const New = () => {
     return (
         <div>
            <Header
-                title={"NEW"} 
+                title={"새 일기 쓰기"} 
                 leftChild={<Button text={"긍정 버튼"} type="positive" onClick={() => {alert("positive button")}} />}
                 rightChild={<Button text={"부정 버튼"} type="negative" onClick={() => {alert("negative button")}} />}
             />
-            <Editor />
+            <Editor onSubmit={() => {alert("작성완료")}} />
         </div>
     );
 };

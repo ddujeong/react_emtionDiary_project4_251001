@@ -21,3 +21,17 @@ export const getEmotionImgById = (emotionId) => {
             return null;
     }
 };
+export const getFormattedDate = (targetDate) => { // yyyy-mm-dd 포맷 변경함수
+    let year = targetDate.getFullYear();
+    let month = targetDate.getMonth() + 1;
+    let date = targetDate.getDate();
+    if (month < 10) {
+        month = `0${month}`;
+        // 월이 10 미만의 수 라면 앞에 0을 붙여 두자리 수로 만듦 (09월)
+    }
+    if (date < 10) {
+        date = `0${date}`;
+        // 일이 10 미만의 수 라면 앞에 0을 붙여 두자리 수로 만듦 (07일)
+    }
+    return `${year}-${month}-${date}`;
+};
