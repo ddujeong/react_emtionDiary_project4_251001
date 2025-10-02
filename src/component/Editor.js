@@ -25,7 +25,7 @@ const Editor = ({initData,onSubmit}) => {
             content: e.target.value
         })
     };
-    const handleSubmit = () => {
+    const handleSubmit = (data) => {
         onSubmit(state);
     };
     const navigate = useNavigate();

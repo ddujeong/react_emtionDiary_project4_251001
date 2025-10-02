@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 import './DiaryList.css';
 import Button from './Button';
 import { useNavigate } from 'react-router-dom';
+import DiaryItem from './DiaryItem';
 
 const DiaryList = ({data}) => {
     const [sortType, setSortType] = useState("latest");
-    const [sortedDate, setSortedDate] = useState([]);
+    const [sortedData, setSortedData] = useState([]);
     const onChangeSortType = (e) => {
         setSortType(e.target.value);
     };
@@ -26,8 +27,9 @@ const DiaryList = ({data}) => {
             }
         };
         const copyList = JSON.parse(JSON.stringify(data));
+        // 깊은 복사 -> data 복사본 생성(sort() 시 원본의 배열도 바뀌기 때문에 복사하여 진행)
         copyList.sort(compare);
-        setSortedDate(copyList);
+        setSortedData(copyList);
     },[data, sortType]);
     return (
         <div className="DiaryList">
@@ -40,6 +42,11 @@ const DiaryList = ({data}) => {
                 <div className='right_col'>
                     <Button type={"positive"} text={"새 일기 쓰기"} onClick={onClickNew}></Button>
                 </div>
+                
+            </div>
+            <div className='list_wrapper'>
+                {sortedData.map((it)=> <DiaryItem key={String(it.id)} {...it} /> )}
+                
             </div>      
         </div>
     );

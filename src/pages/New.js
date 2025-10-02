@@ -1,16 +1,28 @@
+import { useNavigate } from "react-router-dom";
 import Button from "../component/Button";
 import Editor from "../component/Editor";
 import Header from "../component/Header";
+import { useContext } from "react";
+import { DiaryDispatchContext } from "../App";
 
 const New = () => {
+    const {onCreate} = useContext(DiaryDispatchContext);
+    const navigate = useNavigate();
+    const goBack = () => {
+        navigate(-1);
+    };
+    const onSubmit = (data) => {
+        const {date, content, emotionId} = data;
+        onCreate(date, content, emotionId);
+        navigate("/", {replace: true});
+    }
     return (
         <div>
            <Header
                 title={"새 일기 쓰기"} 
-                leftChild={<Button text={"긍정 버튼"} type="positive" onClick={() => {alert("positive button")}} />}
-                rightChild={<Button text={"부정 버튼"} type="negative" onClick={() => {alert("negative button")}} />}
+                leftChild={<Button text={"< 뒤로가기"} onClick={goBack} />}
             />
-            <Editor onSubmit={() => {alert("작성완료")}} />
+            <Editor onSubmit={onSubmit} />
         </div>
     );
 };

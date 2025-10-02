@@ -34,17 +34,17 @@ function App() {
   const[isDataLoaded, setIsDataLoaded] = useState(false);
   const mockData = [{
     id: "mock1",
-    date: new Date().getTime() -1,
+    date: new Date().getTime(),
     content: "mock1이 쓴 글 ~",
     emotionId: 1
   },{
     id: "mock2",
-    date: new Date().getTime() -2,
+    date: new Date().getTime(),
     content: "mock2가 쓴 글 ~",
     emotionId: 3
   },{
     id: "mock3",
-    date: new Date().getTime() -3,
+    date: new Date().getTime(),
     content: "mock3이 쓴 글 ~",
     emotionId: 4
   }];

@@ -1,21 +1,45 @@
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "../component/Button";
 import Editor from "../component/Editor";
 import Header from "../component/Header";
+import useDiary from "../hooks/useDiary";
+import { useContext } from "react";
+import { DiaryDispatchContext } from "../App";
 
 const Edit = () => {
-    return (
+    const {id} = useParams();
+    const data = useDiary(id);
+    const navigate = useNavigate();
+    const {onDelete, onUpdate} = useContext(DiaryDispatchContext);
+    const goBack = () => {
+        navigate(-1);
+    };
+    const onClickDelete = ()=> {
+        if (window.confirm("일기를 정말 삭제할까요? 다시 복구 되지 않아요!")) {
+            onDelete(id);
+            navigate('/', {replace: true});
+        }
+    };
+    const onSubmit = (data) => {
+        if(window.confirm("일기를 정말 수정할까요?")){
+            const {date, content, emotionId} = data;
+            onUpdate(id, date, content, emotionId);
+            navigate('/', {replace: true});
+        }
+    };
+    if (!data) {
+        return <div>일기를 불러오고 있습니다...</div>
+    } else {
+        return (
         <div>
             <Header
                 title={"일기 수정하기"} 
-                leftChild={<Button text={"긍정 버튼"} type="positive" onClick={() => {alert("positive button")}} />}
-                rightChild={<Button text={"부정 버튼"} type="negative" onClick={() => {alert("negative button")}} />}
+                leftChild={<Button text={"< 뒤로가기"}onClick={goBack} />}
+                rightChild={<Button text={"삭제하기"} type="negative" onClick={onClickDelete} />}
             />
-            <Editor initData={{
-                date: new Date().getTime(),
-                emotionId:1,
-                content:"이전에 작성했던 일기"
-            }} onSubmit={() => alert("작성 완료!")} />
+            <Editor initData={data} onSubmit={onSubmit}/>
         </div>
     );
+    }
 };
 export default Edit;
