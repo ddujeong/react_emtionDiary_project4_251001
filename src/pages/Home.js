@@ -14,7 +14,6 @@ const Home = () => {
                 leftChild={<Button text={"긍정 버튼"} type="positive" onClick={() => {alert("positive button")}} />}
                 rightChild={<Button text={"부정 버튼"} type="negative" onClick={() => {alert("negative button")}} />}
             />
-            <Button text={"기본 버튼"} type="default" onClick={() => {alert("default button")}} />
         </div>
     );
 };

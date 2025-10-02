@@ -29,7 +29,7 @@ const Editor = ({initData,onSubmit}) => {
         onSubmit(state);
     };
     const navigate = useNavigate();
-    const handleOnGoBack = () => { // 뒤로가기
+    const handleOnGoBack = () => { // 1페이지 뒤로가기
         navigate(-1);
     };
     const handleChangeEmotion = (emotionId) => { // 객체내의 속성값 변경 (state 객체 내의 emotionId속성값을 emotionId로 변경)
