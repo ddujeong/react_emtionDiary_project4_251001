@@ -56,3 +56,12 @@ export const emotionList = [{
     name : "끔찍함",
     img : getEmotionImgById(5)
 }];
+export const getMonthRangeByDate = (date) => {
+    const beginTimeStamp = new Date(date.getFullYear(), date.getMonth(), 1).getTime();
+    // (년, 월, 일).getTime()
+    const endTimeStamp = new Date(date.getFullYear(), date.getMonth()+1, 0,23,59,59).getTime();
+    // (년, 월, 일, 시, 분, 초).getTime()
+    // 다음달의 0일의 23시 59분 59초 == 해당 월의 마지막 날
+
+    return {beginTimeStamp, endTimeStamp};
+};

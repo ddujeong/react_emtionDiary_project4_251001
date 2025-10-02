@@ -4,7 +4,11 @@ import Home from './pages/Home';
 import New from './pages/New';
 import Diary from './pages/Diary';
 import Edit from './pages/Edit';
-import { useEffect, useReducer, useRef } from 'react';
+import React, { useEffect, useReducer, useRef, useState } from 'react';
+
+// Props Drilling 방지용 context
+export const DiaryStateContext = React.createContext();
+export const DiaryDispatchContext = React.createContext();
 
 const reducer = (state, action) => {
   // state => 기존 일기객체들이 들어있는 배열
@@ -27,19 +31,20 @@ const reducer = (state, action) => {
 }
 
 function App() {
+  const[isDataLoaded, setIsDataLoaded] = useState(false);
   const mockData = [{
     id: "mock1",
-    date: new Date().getTime(),
+    date: new Date().getTime() -1,
     content: "mock1이 쓴 글 ~",
     emotionId: 1
   },{
     id: "mock2",
-    date: new Date().getTime(),
+    date: new Date().getTime() -2,
     content: "mock2가 쓴 글 ~",
     emotionId: 3
   },{
     id: "mock3",
-    date: new Date().getTime(),
+    date: new Date().getTime() -3,
     content: "mock3이 쓴 글 ~",
     emotionId: 4
   }];
@@ -49,9 +54,10 @@ function App() {
       type: "INIT",
       data: mockData
     })
+    setIsDataLoaded(true);
   },[]);
   const [data, dispatch] = useReducer(reducer, []);
-  // data = 일기(일기객체)들이 들어있는 배열 (초기값 []빈배열)
+  // data => 일기(일기객체)들이 들어있는 배열 (초기값 []빈배열)
   const idRef = useRef(0); // 일기의 유니크값(id) 생성 변수
   const onCreate = (date, content, emotionId) => {
     dispatch ({
@@ -82,20 +88,26 @@ function App() {
       targetId
     })
   };
+  if (!isDataLoaded) {
+    return <div>데이터를 불러오는 중입니다</div>;
+  } else {
   return (
-    <div className="App">
-      <div>
-      </div>
-      <hr></hr>
-      <Routes>
-        <Route path='/' element={<Home />}></Route>
-        <Route path='/new' element={<New />}></Route>
-        <Route path='/diary/:id' element={<Diary />}></Route>
-        <Route path='/edit' element={<Edit />}></Route>
-      </Routes>
-      
-    </div>
+    <DiaryStateContext.Provider value={data}>
+      <DiaryDispatchContext.Provider value={{onCreate, onDelete, onUpdate}}>
+        <div className="App">
+          <div>
+          </div>
+          <hr></hr>
+          <Routes>
+            <Route path='/' element={<Home />}></Route>
+            <Route path='/new' element={<New />}></Route>
+            <Route path='/diary/:id' element={<Diary />}></Route>
+            <Route path='/edit/:id' element={<Edit />}></Route>
+          </Routes>
+        </div>
+      </DiaryDispatchContext.Provider>
+    </DiaryStateContext.Provider>
   );
 }
-
+}
 export default App;
